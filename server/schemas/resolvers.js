@@ -3,6 +3,7 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
+    // Added 'users' and 'user' queries to match schema
     users: async () => {
       return User.find().populate("savedBooks");
     },
@@ -17,43 +18,44 @@ const resolvers = {
     },
   },
   Mutation: {
+    // Ensured all mutations are correctly defined within the 'Mutation' object
     addUser: async (parent, { username, email, password }) => {
-      const profile = await User.create({ username, email, password });
-      const token = signToken(profile);
-      return { token, profile };
+      const user = await User.create({ username, email, password });
+      const token = signToken(user);
+      return { token, user };
     },
     login: async (parent, { email, password }) => {
-      const profile = User.findOne({ email });
-      if (!profile) {
-        throw new AuthenticationError("No profile with this email found!");
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new AuthenticationError("No user with this email found!");
       }
-      const correctPw = await profile.isCorrectPassword(password);
+      const correctPw = await user.isCorrectPassword(password);
       if (!correctPw) {
         throw new AuthenticationError("Incorrect password!");
       }
-      const token = signToken(profile);
-      return { token, profile };
+      const token = signToken(user);
+      return { token, user };
     },
-  },
-  saveBook: async (parent, { user, body }, context) => {
-    if (context.user) {
-      return User.findOneAndUpdate(
-        { _id: user._id },
-        { $addToSet: { savedBooks: body } },
-        { new: true, runValidators: true }
-      );
-    }
-    throw new AuthenticationError("You need to be logged in!");
-  },
-  removeBook: async (parent, { user, params }, context) => {
-    if (context.user) {
-      return User.findOneAndUpdate(
-        { _id: user._id },
-        { $pull: { savedBooks: { bookId: params.bookId } } },
-        { new: true }
-      );
-    }
-    throw new AuthenticationError("You need to be logged in!");
+    saveBook: async (parent, { bookData }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: bookData } },
+          { new: true, runValidators: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    removeBook: async (parent, { bookId }, context) => {
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { savedBooks: { bookId } } },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
   },
 };
 
