@@ -8,12 +8,9 @@ BookSpot is a web application that allows users to search for books, save their 
 - [Usage](#usage)
 - [Features](#features)
 - [Technologies](#technologies)
-- [License](#license)
 - [Contributing](#contributing)
+- [License](#license)
 - [Contact](#contact)
-- [User Story](#user-story)
-- [Acceptance Criteria](#acceptance-criteria)
-- [Mock-Up](#mock-up)
 
 ## Installation
 
