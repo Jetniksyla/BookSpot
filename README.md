@@ -11,6 +11,8 @@ BookSpot is a web application that allows users to search for books, save their 
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+- [Deployment](#deployment)
+- [Screenshots](#screenshots)
 
 ## Installation
 
@@ -103,6 +105,7 @@ The server will be running on http://localhost:3001 and the client on http://loc
 
 Contributions are welcome! If you find any issues or have suggestions for improvement, feel free to submit a pull request.
 
+
 ## License
 
 [![License: Apache License 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
@@ -114,3 +117,12 @@ For inquiries or collaboration opportunities, please feel free to reach out to *
 - **Name**: Jetnik Syla
 - **GitHub**: [Jetniksyla](https://github.com/Jetniksyla)
 - **LinkedIn**: [Jetnik Syla](https://www.linkedin.com/in/jetnik-syla/)
+
+
+## Deployment
+
+This application is deployed on Render. You can access it [here](https://bookspot-fcyg.onrender.com).
+
+## Project Screenshot
+
+![Screenshot from BookSpot platform](Assets/ProjectSC.png)
