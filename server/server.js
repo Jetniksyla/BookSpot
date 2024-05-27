@@ -43,27 +43,30 @@ const startApolloServer = async () => {
   });
 
   if (process.env.NODE_ENV === "production") {
-    // Ensure the correct path to the build directory
-    app.use(express.static(path.join(__dirname, "../client/build")));
+    // Ensure the correct path to the dist directory
+    app.use(express.static(path.join(__dirname, "../client/dist")));
 
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "../client/build/index.html"));
+      res.sendFile(path.join(__dirname, "../client/dist/index.html"));
     });
   }
 
   // Connect to MongoDB using the connection string from environment variables
-  mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then(() => {
-    console.log('Successfully connected to MongoDB');
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+  mongoose
+    .connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("Successfully connected to MongoDB");
+      app.listen(PORT, () => {
+        console.log(`API server running on port ${PORT}!`);
+        console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
+      });
+    })
+    .catch((err) => {
+      console.error("Error connecting to MongoDB:", err.message);
     });
-  }).catch((err) => {
-    console.error('Error connecting to MongoDB:', err.message);
-  });
 };
 
 // Call the async function to start the server
